@@ -1,0 +1,29 @@
+batch_size: 16
+epoch: 300
+learning_rate: 1e-3
+gpu: 1
+num_point: 1024
+optimizer: Adam
+weight_decay: 1e-4
+normal: True
+lr_decay: 0.5
+step_size: 20
+
+# config/partseg.yaml
+defaults:
+  - model: Hengshuang
+  - _self_
+
+hydra:
+  run:
+    dir: log/partseg/${model.name}
+  sweep:
+    dir: log/partseg
+    subdir: ${model.name}
+
+# 新增以下参数定义
+num_class: 2   # 分割类别数（必须与训练一致）
+input_dim: 7    # 6（坐标+法线） + 1（类别数）
+model:
+  nblocks: 4    # 根据模型需求定义
+  nneighbor: 16 # 根据模型需求定义
